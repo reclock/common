@@ -1,5 +1,6 @@
 #ifndef _DES_H_2009
 #define _DES_H_2019
+#include "pch.h"
 
 static unsigned char bitmask[]={ 0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01 };
 static unsigned char KEY[64];
@@ -108,25 +109,43 @@ static unsigned char S[8][64]=
 	}
 };
 
-#ifdef __cplusplus
-extern "C"
+
+class mydes
 {
-#endif
+public:
+	mydes();
+	~mydes();
+	/* DES算法实现
+	参数：src 输入，长度为8 字节
+		  dst 输出，长度为8 字节
+		  des_key为密钥，长度为8字节
+		  op 选项，-1 解密, 1 加密
+	*/
+	void DES(unsigned char *src, unsigned char *dst, unsigned char *des_key, int op);
 
-/* DES算法实现
-参数：src 输入，长度为8 字节
-	  dst 输出，长度为8 字节
-	  des_key为密钥，长度为8字节
-	  op 选项，-1 解密, 1 加密  
-*/
-void DES(unsigned char *src,unsigned char *dst,unsigned char *des_key,int op) ;
+	//zeropadding方式加解密
+	void DES_E(unsigned char *msg, int msgLen, unsigned char* des, unsigned char* key, int OP);
+	void DES_setkey(unsigned char *key);
+	void getsubkey();
+	void setbit(unsigned char *buf, int i);
+	int getbit(unsigned char *buf, int i);
+
+private:
+
+};
 
 
-//zeropadding方式加解密
-void DES_E(unsigned char *msg,int msgLen, unsigned char* des,unsigned char* key,int OP)
+
+	
+	
 
 
-#ifdef __cplusplus
-}
-#endif
+	
+
+
+
+//#ifdef __cplusplus
+//}
+//#endif
+
 #endif

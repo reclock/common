@@ -1,18 +1,18 @@
-#include "stdafx.h"
-#include "fdes.h"
+#include "pch.h"
+#include "mydes.h"
 #include <memory.h>
 
-int getbit(unsigned char *buf,int i)
+int mydes::getbit(unsigned char *buf,int i)
 {
 	return ((*(unsigned char*)((unsigned char*)buf+(i>>3))) & bitmask[i&0x07])!=0;
 }
 
-void setbit(unsigned char *buf,int i)
+void mydes::setbit(unsigned char *buf,int i)
 {
 	*((unsigned char *)buf+(i>>3)) |= bitmask[i&0x07];
 }
 
-void getsubkey()
+void mydes::getsubkey()
 {
 	int i,j,s1,s2;
 	for (i=0; i<56; i++)
@@ -44,7 +44,7 @@ void getsubkey()
 	}
 }
 
-void DES_setkey(unsigned char *key)
+void mydes::DES_setkey(unsigned char *key)
 {
 	int i;
 	for (i=0; i<64; i++)
@@ -54,8 +54,16 @@ void DES_setkey(unsigned char *key)
 
 static unsigned char deskey[9];
 
+mydes::mydes()
+{
+}
+
+mydes::~mydes()
+{
+}
+
 /*src 明文,dst 密文, op -1 解密, 1 加密  */
-void DES(unsigned char *src,unsigned char *dst,unsigned char *des_key,int OP) 
+void mydes::DES(unsigned char *src,unsigned char *dst,unsigned char *des_key,int OP) 
 {
 	int i,j,k,r,op;
 	unsigned char v4,v6;
@@ -105,7 +113,7 @@ void DES(unsigned char *src,unsigned char *dst,unsigned char *des_key,int OP)
 
 
 //zeropadding方式加解密
-void DES_E(unsigned char *msg,int msgLen, unsigned char* des,unsigned char* key,int OP)
+void mydes::DES_E(unsigned char *msg,int msgLen, unsigned char* des,unsigned char* key,int OP)
 {
 	unsigned char msgTmp[8]={0};
 	unsigned char block[8]={0};
